@@ -32,9 +32,9 @@ async function setupProject() {
     await runCommand(`cd ${codexFCDPPath} && npm install`);
   }
 
-  // Avvia il server con il comando npm run dev
+  // Avvia il server con il comando electron .
   console.log('Avvio del server...');
-  await runCommand(`cd ${codexFCDPPath} && npm electron .`);
+  await runCommand(`cd ${codexFCDPPath} && electron .`);
 }
 
 // Funzione per eseguire i comandi di terminale
