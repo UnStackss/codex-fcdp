@@ -5,59 +5,10 @@ import open from 'open';
 import axios from 'axios';
 import fs from 'fs';
 import os from 'os';
-import { homedir } from 'os';
-import { promisify } from 'util';
 
 let serverProcess = null;
 let tray = null;
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
-// Funzione per clonare la repo e configurare il progetto
-async function setupProject() {
-  const userDocuments = path.join(homedir(), 'Documents');
-  const codexFCDPPath = path.join(userDocuments, '_CodexFCDP_');
-  const nodeModulesPath = path.join(codexFCDPPath, 'node_modules');
-  const packageJsonPath = path.join(codexFCDPPath, 'package.json');
-
-  // Se la cartella CodexFCDP esiste ma è vuota o contiene solo package.json o node_modules, la eliminiamo
-  if (fs.existsSync(codexFCDPPath)) {
-    const files = fs.readdirSync(codexFCDPPath);
-
-    // Se la cartella è vuota o contiene solo alcuni file essenziali, la eliminiamo e la ricreiamo
-    if (files.length === 0 || (!files.includes('package.json') || !files.includes('node_modules'))) {
-      console.log('Cartella CodexFCDP incompleta, eliminazione e ricreazione...');
-      try {
-        // Usa fs.rm invece di fs.rmdir per supportare la rimozione ricorsiva
-        await fs.promises.rm(codexFCDPPath, { recursive: true, force: true });
-        console.log('Cartella CodexFCDP eliminata con successo.');
-      } catch (err) {
-        console.error('Errore durante l\'eliminazione della cartella CodexFCDP:', err);
-      }
-      fs.mkdirSync(codexFCDPPath); // Ricrea la cartella vuota
-    }
-  } else {
-    fs.mkdirSync(codexFCDPPath); // Crea la cartella se non esiste
-  }
-
-  // Se il package.json non esiste, cloniamo la repository
-  if (!fs.existsSync(packageJsonPath)) {
-    console.log('Clonazione della repository...');
-    await runCommand(`cd ${userDocuments} && git clone https://github.com/UnStackss/codex-fcdp.git CodexFCDP`);
-  }
-
-  // Verifica se i pacchetti sono già installati (se la cartella node_modules esiste)
-  if (!fs.existsSync(nodeModulesPath)) {
-    console.log('Installazione delle dipendenze...');
-    await runCommand(`cd ${codexFCDPPath} && npm install`);
-  }
-
-  // Avvia il server con il comando electron .
-  console.log('Avvio del server...');
-  await runCommand(`cd ${codexFCDPPath} && electron .`);
-}
-
-// Funzione per eseguire i comandi di terminale
-const runCommand = promisify(exec);
 
 async function downloadTrayIcon(url) {
   const tempPath = path.join(os.tmpdir(), 'tray-icon.png');
@@ -110,7 +61,7 @@ function startServer() {
     });
 
     serverProcess.stdout.on('data', (data) => {
-      if (data.includes('Server running at http://localhost:8080')) {
+      if (data.includes('Server running at http://localhost:1050')) {
         resolve();
       }
     });
@@ -138,6 +89,7 @@ async function createTray() {
   const iconPath = await downloadTrayIcon(trayIconUrl);
   
   const trayIcon = nativeImage.createFromPath(iconPath);
+  
   const resizedIcon = trayIcon.resize({ width: 32, height: 32 });
   
   tray = new Tray(resizedIcon);
@@ -146,7 +98,7 @@ async function createTray() {
     {
       label: 'Open Codex FCDP',
       click: () => {
-        open('http://localhost:8080');
+        open('http://localhost:1050');
       },
     }
   ]);
@@ -158,19 +110,19 @@ async function createTray() {
 function sendNotification() {
   new Notification({
     title: 'Codex FCDP Web Server',
-    body: 'The Codex FCDP web server is now running at http://localhost:8080',
+    body: 'The Codex FCDP web server is now running at http://localhost:1050',
   }).show();
 }
 
 app.whenReady().then(() => {
-  setupProject()
+  startServer()
     .then(() => {
       sendNotification();
       createTray();
-      open('http://localhost:8080'); // Assicurati che il server sia in esecuzione prima di aprire la pagina
+      open('http://localhost:1050');
     })
     .catch((err) => {
-      console.error("Error setting up the project:", err);
+      console.error("Error starting server:", err);
       app.quit();
     });
 
