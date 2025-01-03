@@ -19,10 +19,10 @@ async function setupProject() {
   const nodeModulesPath = path.join(codexFCDPPath, 'node_modules');
   const packageJsonPath = path.join(codexFCDPPath, 'package.json');
 
-  // Verifica se la cartella CodexFCDP è vuota o contiene solo file incompleti
+  // Se la cartella CodexFCDP esiste ma è vuota o contiene solo package.json o node_modules, la eliminiamo
   if (fs.existsSync(codexFCDPPath)) {
     const files = fs.readdirSync(codexFCDPPath);
-    // Se la cartella è vuota o contiene solo package.json o node_modules, rimuovila
+    
     if (files.length === 0 || (!files.includes('package.json') || !files.includes('node_modules'))) {
       console.log('Cartella CodexFCDP incompleta, eliminazione e ricreazione...');
       fs.rmdirSync(codexFCDPPath, { recursive: true }); // Rimuove la cartella e il suo contenuto
