@@ -33,19 +33,6 @@
   Visita il sito per vedere la demo in azione: [Codex FCDP](https://codex.unstackss.dev/).
 </p>
 
-## ⚙️ Installazione ⚙️
-
-<p align="center">
-  Se desideri eseguire il progetto localmente, segui questi passaggi:
-</p>
-
-<p align="center">
-  1. Clona il repository:
-  <pre>
-    git clone https://github.com/UnStackss/codex-fcdp.git
-  </pre>
-</p>
-
 ## 💡 Contributi 💡
 
 <p align="center">
