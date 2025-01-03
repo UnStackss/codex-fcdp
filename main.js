@@ -16,27 +16,25 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 async function setupProject() {
   const userDocuments = path.join(homedir(), 'Documents');
   const codexFCDPPath = path.join(userDocuments, 'CodexFCDP');
+  const nodeModulesPath = path.join(codexFCDPPath, 'node_modules');
 
   // Verifica se la cartella CodexFCDP esiste, altrimenti la crea
   if (!fs.existsSync(codexFCDPPath)) {
-    fs.mkdirSync(codexFCDPPath);
-  }
-
-  const packageJsonPath = path.join(codexFCDPPath, 'package.json');
-
-  // Se non esiste il package.json, cloniamo la repo Git
-  if (!fs.existsSync(packageJsonPath)) {
     console.log('Clonazione della repository...');
-
     // Cloniamo la repository nella cartella CodexFCDP
     await runCommand(`cd ${userDocuments} && git clone https://github.com/UnStackss/codex-fcdp.git CodexFCDP`);
   }
 
-  // Una volta clonata, eseguiamo npm install per installare le dipendenze
-  await runCommand(`cd ${codexFCDPPath} && npm install`);
+  // Verifica se i pacchetti sono già installati (se la cartella node_modules esiste)
+  if (!fs.existsSync(nodeModulesPath)) {
+    console.log('Installazione delle dipendenze...');
+    // Una volta clonata, eseguiamo npm install per installare le dipendenze
+    await runCommand(`cd ${codexFCDPPath} && npm install`);
+  }
 
   // Avvia il server con il comando npm run dev
-  await runCommand(`cd ${codexFCDPPath} && electron .`);
+  console.log('Avvio del server...');
+  await runCommand(`cd ${codexFCDPPath} && npm run dev`);
 }
 
 // Funzione per eseguire i comandi di terminale
@@ -150,7 +148,7 @@ app.whenReady().then(() => {
     .then(() => {
       sendNotification();
       createTray();
-      open('http://localhost:8080');
+      open('http://localhost:8080'); // Assicurati che il server sia in esecuzione prima di aprire la pagina
     })
     .catch((err) => {
       console.error("Error setting up the project:", err);
