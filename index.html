@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex FCDP</title>
+    <meta name="description" content="Codex FCDP - Gestisci infrazioni e pene per reati con un sistema semplice ed efficiente. Controlla le multe e il totale delle penalità." />
+    <meta name="keywords" content="infrazioni, multe, reati, codice, sistema, pene, giustizia, FCDP, multa, codice penale" />
+    <meta name="author" content="FCDP Team" />
+    <meta property="og:title" content="Codex FCDP - Sistema di gestione delle infrazioni" />
+    <meta property="og:description" content="Gestisci facilmente le infrazioni e le pene con Codex FCDP. Aggiungi, modifica e rimuovi reati, calcola il totale delle multe e delle pene." />
+    <meta property="og:image" content="https://i.imgur.com/DJtVQIW.png" />
+    <meta property="og:url" content="https://www.charlieroleplay.it/" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="theme-color" content="#2473f5" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="/frontend.js" defer></script>
+    <style>
+      body {
+        background-color: #0f172a;
+        color: #f1f5f9;
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        text-align: center;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        animation: fadeIn 1s ease-in;
+      }
+
+      .header img {
+        width: 120px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 10px #3b82f6);
+        }
+        50% {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 20px #3b82f6);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: #38bdf8;
+        animation: fadeIn 1s ease-in;
+      }
+
+      .total {
+        margin-left: 20px;
+        color: #94a3b8;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        animation: fadeIn 2s ease-in;
+      }
+
+      .total span {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      .table-section {
+        flex: 1;
+        overflow-y: auto;
+        margin: 10px;
+        opacity: 0;
+        animation: slideUp 1s forwards;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        animation: fadeIn 1s ease-in;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #334155;
+        color: #94a3b8;
+      }
+
+      td {
+        background-color: #1e293b;
+        border-bottom: 1px solid #334155;
+        transition: background-color 0.3s ease;
+      }
+
+      td:last-child {
+        text-align: center;
+      }
+
+      button.remove {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 6px;
+        background-color: #f87171;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button.remove:hover {
+        background-color: #ef4444;
+        animation: shake 0.5s ease-in-out;
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-4px);
+        }
+        50% {
+          transform: translateX(4px);
+        }
+        75% {
+          transform: translateX(-4px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      .input-section {
+        position: relative;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 10px;
+        background-color: #1e293b;
+        z-index: 10;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 12px;
+        font-size: 1rem;
+        border: 1px solid #3b82f6;
+        border-radius: 8px;
+        background-color: #1e293b;
+        color: #fff;
+        transition: border 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+        border: 1px solid #38bdf8;
+      }
+
+      input[type="text"]::placeholder {
+        color: #94a3b8;
+      }
+
+      .autocomplete {
+        position: absolute;
+        top: -320%;
+        left: 0;
+        right: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: #1e293b;
+        border: 1px solid #90a4ae;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+        opacity: 0;
+        animation: slideDown 0.3s ease-out forwards;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .autocomplete.visible {
+        display: block;
+      }
+
+      .autocomplete-item {
+        padding: 12px;
+        cursor: pointer;
+        color: #eceff1;
+        border-bottom: 1px solid #1e293b;
+        transition: background-color 0.2s, padding 0.2s;
+      }
+
+      .autocomplete-item:hover {
+        background-color: #1e293b;
+        padding-left: 20px;
+      }
+
+      button.add {
+        padding: 12px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        background-color: #38bdf8;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button.add:hover {
+        background-color: #0284c7;
+        animation: pulse 1s infinite;
+      }
+
+      .slider-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        background-color: #1e293b;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .slider {
+        width: 200px;
+        height: 10px;
+        -webkit-appearance: none;
+        background: linear-gradient(
+          90deg,
+          #38bdf8 0%,
+          #0284c7 100%
+        );
+        border-radius: 5px;
+        outline: none;
+        transition: background 0.3s ease;
+      }
+
+      .slider:hover {
+        background: linear-gradient(
+          90deg,
+          #0284c7 0%,
+          #38bdf8 100%
+        );
+      }
+
+      input[type="number"] {
+        width: 80px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 6px;
+        border: 1px solid #38bdf8;
+        background-color: #263238;
+        color: #fff;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      input[type="number"]:focus {
+        background-color: #0284c7;
+        border: 1px solid #38bdf8;
+      }
+
+      span {
+        color: #90a4ae;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .slider-container:hover span {
+        color: #f1f5f9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img src="https://i.imgur.com/DJtVQIW.png" alt="Logo FCDP" />
+        <h1>Codex FCDP</h1>
+        <div class="total">
+          <span>💰 Totale:</span> <span id="totalAmount">€0</span>
+        </div>
+      </div>
+      <div class="table-section">
+        <table>
+          <thead>
+            <tr>
+              <th><i class="fas fa-tag"></i> Codice</th>
+              <th><i class="fas fa-exclamation-circle"></i> Infrazione</th>
+              <th><i class="fas fa-arrow-down"></i> Min (€)</th>
+              <th><i class="fas fa-arrow-up"></i> Max (€)</th>
+              <th><i class="fas fa-cogs"></i> Azioni</th>
+              <th><i class="fas fa-balance-scale"></i> Pena</th>
+            </tr>
+          </thead>
+          <tbody id="infractionTableBody"></tbody>
+        </table>
+      </div>
+      <div class="input-section">
+        <input
+          type="text"
+          id="infractionInput"
+          placeholder="🔍 Inserisci il nome dell'infrazione"
+        />
+        <div class="autocomplete" id="autocompleteList"></div>
+        <button class="add" id="addButton">
+          <i class="fas fa-plus"></i> Aggiungi Infrazione
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

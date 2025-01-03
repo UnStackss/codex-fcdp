@@ -1,0 +1,16 @@
+🐾 neko-cli package lock 🐾
+
+dependencies:
+
+
+🐱 express:
+    🔖 version: "4.21.2"
+    📦 resolved: "https://registry.npmjs.org/express/-/express-4.21.2.tgz"
+    🔒 integrity: "sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA=="
+    ⚙️ type: runtime
+
+🐱 openai:
+    🔖 version: "4.77.0"
+    📦 resolved: "https://registry.npmjs.org/openai/-/openai-4.77.0.tgz"
+    🔒 integrity: "sha512-WWacavtns/7pCUkOWvQIjyOfcdr9X+9n9Vvb0zFeKVDAqwCMDHB+iSr24SVaBAhplvSG6JrRXFpcNM9gWhOGIw=="
+    ⚙️ type: runtime
