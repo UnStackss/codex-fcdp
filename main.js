@@ -15,7 +15,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 // Funzione per clonare la repo e configurare il progetto
 async function setupProject() {
   const userDocuments = path.join(homedir(), 'Documents');
-  const codexFCDPPath = path.join(userDocuments, 'CodexFCDP');
+  const codexFCDPPath = path.join(userDocuments, '_CodexFCDP_');
   const nodeModulesPath = path.join(codexFCDPPath, 'node_modules');
   const packageJsonPath = path.join(codexFCDPPath, 'package.json');
 
