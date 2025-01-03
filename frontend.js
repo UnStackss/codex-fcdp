@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
       timeoutId = setTimeout(async () => {
         try {
-          const response = await fetch(`http://localhost:1050/api/autocomplete?q=${query}`);
+          const response = await fetch(`http://80.182.152.218:1050/api/autocomplete?q=${query}`);
           const suggestions = await response.json();
   
           autocompleteList.innerHTML = "";
@@ -57,23 +57,24 @@ document.addEventListener("DOMContentLoaded", () => {
     function copyInfractionsToClipboard() {
       const rows = infractionTableBody.querySelectorAll("tr");
       let infractionNames = [];
-  
+    
       rows.forEach(row => {
         const columns = row.querySelectorAll("td");
-        const infrazione = columns[1].textContent;
-        
-        const infrazioneNoEmojis = infrazione.replace(/[^\w\s]/g, '');
+        const infrazione = columns[1].textContent.trim();
+    
+        const infrazioneNoEmojis = infrazione.replace(/[^\w\s]/g, '').trim();
         infractionNames.push(infrazioneNoEmojis);
       });
-  
+    
       const infractionText = infractionNames.join(", ");
-
+    
       navigator.clipboard.writeText(infractionText).then(() => {
         alert("Infrazioni copiate nella clipboard!");
       }).catch(err => {
         console.error("Errore nel copiare le infrazioni:", err);
       });
     }
+    
   
     function addInfraction(item) {
       const row = document.createElement("tr");

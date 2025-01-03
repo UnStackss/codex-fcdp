@@ -61,7 +61,7 @@ function startServer() {
     });
 
     serverProcess.stdout.on('data', (data) => {
-      if (data.includes('Server running at http://localhost:1050')) {
+      if (data.includes('Server running at http://80.182.152.218:1050')) {
         resolve();
       }
     });
@@ -98,7 +98,7 @@ async function createTray() {
     {
       label: 'Open Codex FCDP',
       click: () => {
-        open('http://localhost:1050');
+        open('http://80.182.152.218:1050');
       },
     }
   ]);
@@ -110,7 +110,7 @@ async function createTray() {
 function sendNotification() {
   new Notification({
     title: 'Codex FCDP Web Server',
-    body: 'The Codex FCDP web server is now running at http://localhost:1050',
+    body: 'The Codex FCDP web server is now running at http://80.182.152.218:1050',
   }).show();
 }
 
@@ -119,7 +119,7 @@ app.whenReady().then(() => {
     .then(() => {
       sendNotification();
       createTray();
-      open('http://localhost:1050');
+      open('http://80.182.152.218:1050');
     })
     .catch((err) => {
       console.error("Error starting server:", err);
