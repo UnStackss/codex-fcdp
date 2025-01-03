@@ -22,10 +22,17 @@ async function setupProject() {
   // Se la cartella CodexFCDP esiste ma è vuota o contiene solo package.json o node_modules, la eliminiamo
   if (fs.existsSync(codexFCDPPath)) {
     const files = fs.readdirSync(codexFCDPPath);
-    
+
+    // Se la cartella è vuota o contiene solo alcuni file essenziali, la eliminiamo e la ricreiamo
     if (files.length === 0 || (!files.includes('package.json') || !files.includes('node_modules'))) {
       console.log('Cartella CodexFCDP incompleta, eliminazione e ricreazione...');
-      fs.rmdirSync(codexFCDPPath, { recursive: true }); // Rimuove la cartella e il suo contenuto
+      try {
+        // Usa fs.rm invece di fs.rmdir per supportare la rimozione ricorsiva
+        await fs.promises.rm(codexFCDPPath, { recursive: true, force: true });
+        console.log('Cartella CodexFCDP eliminata con successo.');
+      } catch (err) {
+        console.error('Errore durante l\'eliminazione della cartella CodexFCDP:', err);
+      }
       fs.mkdirSync(codexFCDPPath); // Ricrea la cartella vuota
     }
   } else {
