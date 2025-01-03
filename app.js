@@ -4,7 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { codex } from "./codex.js";
 
-const PORT = 8081;
+const PORT = 8082;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
