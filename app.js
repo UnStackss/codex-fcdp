@@ -4,7 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { codex } from "./codex.js";
 
-const PORT = 1050;
+const PORT = 8081;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,11 +14,13 @@ function serveStaticFile(filePath, contentType, res) {
       res.writeHead(200, { "Content-Type": contentType });
       res.end(data);
     })
-    .catch(() => {
+    .catch((error) => {
+      console.error(`Error reading file ${filePath}: ${error}`);
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end("404 Not Found");
     });
 }
+
 
 function getAutocompleteSuggestions(query) {
   if (!query) return [];
