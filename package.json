@@ -2,16 +2,27 @@
   "name": "calcolatore-fcdp",
   "version": "0.0.1",
   "description": "",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "electron . --trace-warnings",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
-    "build": "echo \"Building project...\""
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "dev.unstackss.codex",
+    "productName": "Codex FCDP",
+    "icon": "icon.png",
+    "win": {
+      "icon": "favicon2.ico",
+      "requestedExecutionLevel": "requireAdministrator"
+    }
   },
   "author": "UnStackss,Migliorie",
   "license": "ISC",
   "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
     "nodemon": "^3.1.9"
   },
   "engines": {
@@ -40,9 +51,13 @@
   "dependencies": {
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
-    "openai": "^4.77.0"
+    "open": "^10.1.0",
+    "openai": "^4.77.0",
+    "ps-list": "^8.1.1",
+    "tree-kill": "^1.2.2"
   }
 }

@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
       timeoutId = setTimeout(async () => {
         try {
-          const response = await fetch(`http://localhost:1050/api/autocomplete?q=${query}`);
+          const response = await fetch(`http://localhost:8080/api/autocomplete?q=${query}`);
           const suggestions = await response.json();
   
           autocompleteList.innerHTML = "";
@@ -52,6 +52,27 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("Errore nell'autocomplete:", error);
         }
       }, 300);
+    }
+
+    function copyInfractionsToClipboard() {
+      const rows = infractionTableBody.querySelectorAll("tr");
+      let infractionNames = [];
+  
+      rows.forEach(row => {
+        const columns = row.querySelectorAll("td");
+        const infrazione = columns[1].textContent;
+        
+        const infrazioneNoEmojis = infrazione.replace(/[^\w\s]/g, '');
+        infractionNames.push(infrazioneNoEmojis);
+      });
+  
+      const infractionText = infractionNames.join(", ");
+
+      navigator.clipboard.writeText(infractionText).then(() => {
+        alert("Infrazioni copiate nella clipboard!");
+      }).catch(err => {
+        console.error("Errore nel copiare le infrazioni:", err);
+      });
     }
   
     function addInfraction(item) {
@@ -97,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
         manualInput.value = value;
         updatePenalty(value, event.target.dataset.id);
       });
+
+      copyButton.addEventListener("click", copyInfractionsToClipboard);
   
       manualInput.addEventListener("input", (event) => {
         const value = parseFloat(event.target.value);

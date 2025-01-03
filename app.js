@@ -4,7 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { codex } from "./codex.js";
 
-const PORT = 1050;
+const PORT = 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -20,7 +20,6 @@ function serveStaticFile(filePath, contentType, res) {
       res.end("404 Not Found");
     });
 }
-
 
 function getAutocompleteSuggestions(query) {
   if (!query) return [];

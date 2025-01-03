@@ -4,22 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Codex FCDP</title>
-    <meta name="description" content="Codex FCDP - Gestisci infrazioni e pene per reati con un sistema semplice ed efficiente. Controlla le multe e il totale delle penalità." />
-    <meta name="keywords" content="infrazioni, multe, reati, codice, sistema, pene, giustizia, FCDP, multa, codice penale" />
+    <meta
+      name="description"
+      content="Codex FCDP - Gestisci infrazioni e pene per reati con un sistema semplice ed efficiente. Controlla le multe e il totale delle penalità."
+    />
+    <meta
+      name="keywords"
+      content="infrazioni, multe, reati, codice, sistema, pene, giustizia, FCDP, multa, codice penale"
+    />
     <meta name="author" content="FCDP Team" />
-    <meta property="og:title" content="Codex FCDP - Sistema di gestione delle infrazioni" />
-    <meta property="og:description" content="Gestisci facilmente le infrazioni e le pene con Codex FCDP. Aggiungi, modifica e rimuovi reati, calcola il totale delle multe e delle pene." />
+    <meta
+      property="og:title"
+      content="Codex FCDP - Sistema di gestione delle infrazioni"
+    />
+    <meta
+      property="og:description"
+      content="Gestisci facilmente le infrazioni e le pene con Codex FCDP. Aggiungi, modifica e rimuovi reati, calcola il totale delle multe e delle pene."
+    />
     <meta property="og:image" content="https://i.imgur.com/DJtVQIW.png" />
     <meta property="og:url" content="https://www.charlieroleplay.it/" />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+
     <meta name="theme-color" content="#2473f5" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
       rel="stylesheet"
     />
     <script src="/frontend.js" defer></script>
+    <script>
+      document.addEventListener("keydown", function (e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === "a") {
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+      });
+    </script>
+
     <style>
       body {
         background-color: #0f172a;
@@ -30,6 +57,17 @@
         flex-direction: column;
         height: 100vh;
         overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      *{
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       .container {
@@ -279,22 +317,14 @@
         width: 200px;
         height: 10px;
         -webkit-appearance: none;
-        background: linear-gradient(
-          90deg,
-          #38bdf8 0%,
-          #0284c7 100%
-        );
+        background: linear-gradient(90deg, #38bdf8 0%, #0284c7 100%);
         border-radius: 5px;
         outline: none;
         transition: background 0.3s ease;
       }
 
       .slider:hover {
-        background: linear-gradient(
-          90deg,
-          #0284c7 0%,
-          #38bdf8 100%
-        );
+        background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
       }
 
       input[type="number"] {
@@ -324,6 +354,22 @@
       .slider-container:hover span {
         color: #f1f5f9;
       }
+
+      button.copy {
+        padding: 8px 12px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 6px;
+        background-color: #38bdf8;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 20px; /* Crea uno spazio tra il totale e il pulsante */
+      }
+
+      button.copy:hover {
+        background-color: #0284c7;
+      }
     </style>
   </head>
   <body>
@@ -333,6 +379,7 @@
         <h1>Codex FCDP</h1>
         <div class="total">
           <span>💰 Totale:</span> <span id="totalAmount">€0</span>
+          <button id="copyButton" class="copy">📋 Copia Infrazioni</button>
         </div>
       </div>
       <div class="table-section">
