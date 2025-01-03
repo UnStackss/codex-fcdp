@@ -37,7 +37,7 @@ createServer((req, res) => {
     } else if (req.url === "/codex.js") {
       serveStaticFile(path.join(__dirname, "codex.js"), "application/javascript", res);
     } else if (req.url.startsWith("/api/autocomplete")) {
-      const urlParams = new URL(req.url, `http://localhost:${PORT}`);
+      const urlParams = new URL(req.url, `https://codex.unstackss.dev:${PORT}`);
       const query = urlParams.searchParams.get("q");
       const suggestions = getAutocompleteSuggestions(query);
       res.writeHead(200, { "Content-Type": "application/json" });
@@ -51,5 +51,5 @@ createServer((req, res) => {
     res.end("Method Not Allowed");
   }
 }).listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at https://codex.unstackss.dev:${PORT}`);
 });

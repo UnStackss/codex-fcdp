@@ -18,3 +18,5 @@ build/
 # Ignore temporary files
 *.tmp
 *.log
+# Local Netlify folder
+.netlify
