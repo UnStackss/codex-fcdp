@@ -17,18 +17,30 @@ async function setupProject() {
   const userDocuments = path.join(homedir(), 'Documents');
   const codexFCDPPath = path.join(userDocuments, 'CodexFCDP');
   const nodeModulesPath = path.join(codexFCDPPath, 'node_modules');
+  const packageJsonPath = path.join(codexFCDPPath, 'package.json');
 
-  // Verifica se la cartella CodexFCDP esiste, altrimenti la crea
-  if (!fs.existsSync(codexFCDPPath)) {
+  // Verifica se la cartella CodexFCDP è vuota o contiene solo file incompleti
+  if (fs.existsSync(codexFCDPPath)) {
+    const files = fs.readdirSync(codexFCDPPath);
+    // Se la cartella è vuota o contiene solo package.json o node_modules, rimuovila
+    if (files.length === 0 || (!files.includes('package.json') || !files.includes('node_modules'))) {
+      console.log('Cartella CodexFCDP incompleta, eliminazione e ricreazione...');
+      fs.rmdirSync(codexFCDPPath, { recursive: true }); // Rimuove la cartella e il suo contenuto
+      fs.mkdirSync(codexFCDPPath); // Ricrea la cartella vuota
+    }
+  } else {
+    fs.mkdirSync(codexFCDPPath); // Crea la cartella se non esiste
+  }
+
+  // Se il package.json non esiste, cloniamo la repository
+  if (!fs.existsSync(packageJsonPath)) {
     console.log('Clonazione della repository...');
-    // Cloniamo la repository nella cartella CodexFCDP
     await runCommand(`cd ${userDocuments} && git clone https://github.com/UnStackss/codex-fcdp.git CodexFCDP`);
   }
 
   // Verifica se i pacchetti sono già installati (se la cartella node_modules esiste)
   if (!fs.existsSync(nodeModulesPath)) {
     console.log('Installazione delle dipendenze...');
-    // Una volta clonata, eseguiamo npm install per installare le dipendenze
     await runCommand(`cd ${codexFCDPPath} && npm install`);
   }
 
