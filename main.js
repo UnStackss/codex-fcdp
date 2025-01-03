@@ -34,7 +34,7 @@ async function setupProject() {
 
   // Avvia il server con il comando npm run dev
   console.log('Avvio del server...');
-  await runCommand(`cd ${codexFCDPPath} && npm run dev`);
+  await runCommand(`cd ${codexFCDPPath} && npm electron .`);
 }
 
 // Funzione per eseguire i comandi di terminale
