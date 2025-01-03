@@ -1,8 +1,10 @@
+<p align="center">
+  <img src="https://i.imgur.com/DJtVQIW.png" alt="Codex FCDP Logo" width="150"/>
+</p>
+
 # 🚨 **Codex FCDP** 🚨
 
 **Codex FCDP** è un sistema di gestione delle **infrazioni** e delle **pene** per reati, progettato per offrire un'interfaccia semplice ed efficiente per aggiungere, modificare e rimuovere infrazioni. Gestisci le multe, calcola il totale delle penalità e mantieni il controllo completo sui dati delle infrazioni in modo intuitivo.
-
-![Codex FCDP Logo](https://i.imgur.com/DJtVQIW.png)
 
 ## 🌟 Caratteristiche 🌟
 
