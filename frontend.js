@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
       timeoutId = setTimeout(async () => {
         try {
-          const response = await fetch(`https://codex.unstackss.dev/api/autocomplete?q=${query}`);
+          const response = await fetch(`http://localhost:1050/api/autocomplete?q=${query}`);
           const suggestions = await response.json();
   
           autocompleteList.innerHTML = "";
